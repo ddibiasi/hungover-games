@@ -1,0 +1,26 @@
+version: '3'
+services:
+  db:
+    image: mariadb:10.4.7
+    environment:
+      MYSQL_ROOT_PASSWORD: hungover-games
+      MYSQL_DATABASE: hungover_db
+      MYSQL_USER: docker
+      MYSQL_PASSWORD: docker
+    container_name: hungover_db
+    restart: always
+    ports:
+      - "3306:3306"
+    tty: true
+  app:
+    build:
+      context: .
+    volumes:
+      - "./Go:/go"
+    container_name: hungover_app
+    restart: always
+    ports:
+      - "1323:1323"
+    tty: true
+    depends_on:
+      - db
