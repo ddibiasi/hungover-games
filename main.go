@@ -22,6 +22,7 @@ func main() {
 	api := e.Group("/api")
 	// Log
 	api.POST("/order", routes.PostOrder)
+	api.POST("/team", routes.PostTeam)
 	api.GET("/points", routes.GetPoints)
 	api.GET("/points/detailed", routes.GetPointsDetailed)
 

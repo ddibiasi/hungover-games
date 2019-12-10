@@ -21,6 +21,15 @@ func PostOrder(c echo.Context) error {
 	return c.JSON(http.StatusCreated, web.Response{Message: "Added order"})
 }
 
+func PostTeam(c echo.Context) error {
+	t := new(db.Team)
+	if err := c.Bind(t); err != nil {
+		return err
+	}
+	models.Db().Create(t)
+	return c.JSON(http.StatusCreated, web.Response{Message: "Added Team"})
+}
+
 // ################################
 //			GET REQUESTS
 // ################################
