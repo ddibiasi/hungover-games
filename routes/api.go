@@ -21,14 +21,23 @@ func PostOrder(c echo.Context) error {
 	return c.JSON(http.StatusCreated, web.Response{Message: "Added order"})
 }
 
-
-
 // ################################
 //			GET REQUESTS
 // ################################
+type Result struct {
+	TeamID      int
+	TotalPoints int64
+	Name        string
+}
 
 func GetPoints(c echo.Context) error {
-	var teams []db.Team
-	models.Db().Find(&teams)
-	return c.JSON(http.StatusOK, teams)
+	var results []Result
+	models.Db().Table("orders").Select("orders.team_id, teams.name, sum(orders.points) as total_points").Group("team_id").Joins("left join teams on orders.team_id = teams.id").Scan(&results)
+	return c.JSON(http.StatusOK, results)
+}
+
+func GetPointsDetailed(c echo.Context) error {
+	var orders []db.Order
+	models.Db().Preload("Team").Find(&orders)
+	return c.JSON(http.StatusOK, orders)
 }
