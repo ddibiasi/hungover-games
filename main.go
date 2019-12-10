@@ -7,7 +7,6 @@ import (
 	"hungover-games/routes"
 )
 
-
 func main() {
 	e := echo.New()
 	models.Db() // start db migration
@@ -22,10 +21,10 @@ func main() {
 	// API - JWT Authenticated routes
 	api := e.Group("/api")
 	// Log
-	api.POST("/log", routes.PostOrder)
-	api.GET("/log/all", routes.GetPoints)
+	api.POST("/order", routes.PostOrder)
+	api.GET("/points", routes.GetPoints)
+	api.GET("/points/detailed", routes.GetPointsDetailed)
 
 	e.Logger.Print("Everything is up and running commander!")
 	e.Logger.Fatal(e.Start(":1323"))
 }
-

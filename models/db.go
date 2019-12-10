@@ -39,8 +39,6 @@ func setupDb() {
 	}
 	db = database
 	// Migrate the schema
-	db.AutoMigrate(&dbModels.Drink{})
-	db.AutoMigrate(&dbModels.Multiplier{})
 	db.AutoMigrate(&dbModels.Team{})
 	db.AutoMigrate(&dbModels.Order{})
 }
