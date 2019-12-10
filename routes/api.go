@@ -46,7 +46,7 @@ func GetPoints(c echo.Context) error {
 }
 
 func GetPointsDetailed(c echo.Context) error {
-	var orders []db.Order
-	models.Db().Preload("Team").Find(&orders)
-	return c.JSON(http.StatusOK, orders)
+	var teams []db.Team
+	models.Db().Preload("Orders").Find(&teams)
+	return c.JSON(http.StatusOK, teams)
 }
