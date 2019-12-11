@@ -4,6 +4,7 @@ import (
 	"github.com/labstack/echo"
 	"hungover-games/models"
 	"hungover-games/models/db"
+	"hungover-games/utils"
 	"hungover-games/utils/web"
 	"net/http"
 )
@@ -33,20 +34,19 @@ func PostTeam(c echo.Context) error {
 // ################################
 //			GET REQUESTS
 // ################################
-type Result struct {
-	TeamID      int
-	TotalPoints int64
-	Name        string
-}
 
 func GetPoints(c echo.Context) error {
-	var results []Result
-	models.Db().Table("orders").Select("orders.team_id, teams.name, sum(orders.points) as total_points").Group("team_id").Joins("left join teams on orders.team_id = teams.id").Scan(&results)
-	return c.JSON(http.StatusOK, results)
+	return c.JSON(http.StatusOK, utils.GetCurPoints())
 }
 
 func GetPointsDetailed(c echo.Context) error {
 	var teams []db.Team
 	models.Db().Preload("Orders").Find(&teams)
+	return c.JSON(http.StatusOK, teams)
+}
+
+func GetPointsTimeline(c echo.Context) error {
+	var teams []db.Team
+	models.Db().Preload("CumulativeSums").Find(&teams)
 	return c.JSON(http.StatusOK, teams)
 }

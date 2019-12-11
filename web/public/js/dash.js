@@ -1,24 +1,49 @@
 var barChart;
+var curConsumptionLineChart;
+var timelineChart;
 let ctx;
+var reloadCounter = 0;
+var viewSwitcher = 1;
 $(document).ready(function () {
     ctx = document.getElementById('dash').getContext('2d');
     ctx.canvas.width = window.innerWidth;
     ctx.canvas.height = window.innerHeight;
     loadData();
-    // setInterval(loadData, 10000);
-
+    setInterval(loadData, 10000);
 });
 
 
 function loadData() {
-    /* $.get("../api/points", function (data) {
-         drawBarChart(data);
-     });
-
-     */
-    $.get("../api/points/detailed", function (data) {
-        initLineChart(ctx, data);
-    });
+    if (reloadCounter >= 2) {
+        viewSwitcher++;
+        if(viewSwitcher >= 4){
+            viewSwitcher = 1;
+        }
+        reloadCounter = 0;
+        curConsumptionLineChart = null;
+        timelineChart = null;
+        barChart = null;
+    }
+    switch (viewSwitcher) {
+        case 1:
+            $.get("../api/points", function (data) {
+                drawBarChart(data);
+            });
+            break;
+        case 2:
+            $.get("../api/points/detailed", function (data) {
+                drawCurrentConsumption(ctx, data);
+            });
+            break;
+        case 3:
+            $.get("../api/points/timeline", function (data) {
+                drawTimeline(ctx, data);
+            });
+            break;
+        default:
+            viewSwitcher = 1;
+    }
+    reloadCounter++;
 }
 
 function drawBarChart(data) {
@@ -76,8 +101,89 @@ function initBarChart(ctx, teams, points) {
     });
 }
 
-function createLineDataset(teams) {
-    var dataset = [];
+function drawTimeline(ctx, data) {
+    var config = {
+        type: 'line',
+        data: {
+            datasets: []
+        },
+        options: {
+            title: {
+                display: true,
+                text: "Timeline"
+            },
+            scales: {
+                xAxes: [{
+                    type: 'time',
+                    distribution: 'series',
+                    time: {
+                        displayFormats: {
+                            quarter: 'h:mm:ss'
+                        }
+                    },
+                    ticks: {
+                        source: 'auto'
+                    },
+                }],
+            }
+        }
+    };
+    timelineChart = new Chart(ctx, config);
+    updateTimeline(data);
+}
+
+function updateTimeline(teams) {
+    for (let i = 0; i < teams.length; i++) {
+        var data = [];
+        for (let j = 0; j < teams[i].CumulativeSums.length; j++) {
+            data.push({
+                x: teams[i].CumulativeSums[j].CreatedAt,
+                y: teams[i].CumulativeSums[j].cumulated_points
+            })
+        }
+        var entry = {
+            label: teams[i].name,
+            data: data,
+            borderColor: colors[i],
+            fill: false
+        };
+        timelineChart.data.datasets.push(entry)
+    }
+    timelineChart.update(0)
+}
+
+function drawCurrentConsumption(ctx, teams) {
+    var config = {
+        type: 'line',
+        data: {
+            datasets: []
+        },
+        options: {
+            title: {
+                display: true,
+                text: "Current consumption in points"
+            },
+            scales: {
+                xAxes: [{
+                    type: 'time',
+                    distribution: 'series',
+                    time: {
+                        displayFormats: {
+                            quarter: 'h:mm:ss'
+                        }
+                    },
+                    ticks: {
+                        source: 'auto'
+                    },
+                }],
+            }
+        }
+    };
+    curConsumptionLineChart = new Chart(ctx, config);
+    updateCurrentConsumption(teams);
+}
+
+function updateCurrentConsumption(teams) {
     for (let i = 0; i < teams.length; i++) {
         var data = [];
         for (let j = 0; j < teams[i].Orders.length; j++) {
@@ -92,41 +198,7 @@ function createLineDataset(teams) {
             borderColor: colors[i],
             fill: false
         };
-        dataset.push(entry)
+        curConsumptionLineChart.data.datasets.push(entry)
     }
-    return dataset
-}
-
-function initLineChart(ctx, teams) {
-    var dataset = createLineDataset(teams);
-
-
-    var config = {
-        type: 'line',
-        data: {
-            datasets: dataset
-        },
-        options: {
-            title: {
-                display: true,
-                text: "The Hungover Games"
-            },
-            scales: {
-                xAxes: [{
-                    type: 'time',
-                    distribution: 'series',
-                    time: {
-                        displayFormats: {
-                            quarter: 'h:mm:ss'
-                        }
-                    },
-                    ticks: {
-                        source: 'auto'
-                    },
-                }]
-            }
-        }
-    };
-    var lineChart = new Chart(ctx, config);
-
+    curConsumptionLineChart.update(0)
 }

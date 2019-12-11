@@ -6,6 +6,7 @@ import (
 
 type Team struct {
 	gorm.Model
-	Name   string `json:"name" gorm:"not null"`
-	Orders []Order
+	Name           string `json:"name" gorm:"not null"`
+	Orders         []Order
+	CumulativeSums []CumulatedOrders
 }

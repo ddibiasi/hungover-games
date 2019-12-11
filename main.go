@@ -5,9 +5,11 @@ import (
 	"github.com/labstack/echo/middleware"
 	"hungover-games/models"
 	"hungover-games/routes"
+	"hungover-games/utils"
 )
 
 func main() {
+	utils.StartCumulator()
 	e := echo.New()
 	models.Db() // start db migration
 	// Root level middleware
@@ -25,6 +27,7 @@ func main() {
 	api.POST("/team", routes.PostTeam)
 	api.GET("/points", routes.GetPoints)
 	api.GET("/points/detailed", routes.GetPointsDetailed)
+	api.GET("/points/timeline", routes.GetPointsTimeline)
 
 	e.Logger.Print("Everything is up and running commander!")
 	e.Logger.Fatal(e.Start(":1323"))

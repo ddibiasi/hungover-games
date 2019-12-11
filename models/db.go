@@ -41,4 +41,5 @@ func setupDb() {
 	// Migrate the schema
 	db.AutoMigrate(&dbModels.Team{})
 	db.AutoMigrate(&dbModels.Order{})
+	db.AutoMigrate(&dbModels.CumulatedOrders{})
 }
