@@ -9,7 +9,7 @@ import (
 	"sync"
 )
 
-var USE_TCP_FLAG = false
+var USE_TCP_FLAG = true
 
 const DbUser = "docker"
 const DbPw = "docker"

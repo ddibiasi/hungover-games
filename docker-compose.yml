@@ -1,6 +1,6 @@
 version: '3'
 services:
-  mariadb:
+  db:
     image: mariadb:10.4.7
     environment:
       MYSQL_ROOT_PASSWORD: hungover-games
@@ -23,4 +23,4 @@ services:
       - "1323:1323"
     tty: true
     depends_on:
-      - hungover_db
+      - db

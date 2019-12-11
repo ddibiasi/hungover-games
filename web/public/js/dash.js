@@ -14,7 +14,7 @@ $(document).ready(function () {
 
 
 function loadData() {
-    if (reloadCounter >= 2) {
+    if (reloadCounter >= 100) {
         viewSwitcher++;
         if(viewSwitcher >= 4){
             viewSwitcher = 1;
