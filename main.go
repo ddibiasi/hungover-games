@@ -19,13 +19,15 @@ func main() {
 	drunken := e.Group("/drunken")
 	// Public
 	drunken.Static("/", "web/public")
-	drunken.Static("/client", "web/public")
-	// API - JWT Authenticated routes
+	drunken.Static("/dash", "web/public")
+	drunken.Static("/client", "web/public/client.html")
+	// API
 	api := e.Group("/api")
 	// Log
 	api.POST("/order", routes.PostOrder)
 	api.POST("/team", routes.PostTeam)
 	api.GET("/points", routes.GetPoints)
+	api.GET("/teams", routes.GetTeams)
 	api.GET("/points/detailed", routes.GetPointsDetailed)
 	api.GET("/points/timeline", routes.GetPointsTimeline)
 

@@ -39,6 +39,12 @@ func GetPoints(c echo.Context) error {
 	return c.JSON(http.StatusOK, utils.GetCurPoints())
 }
 
+func GetTeams(c echo.Context) error {
+	var teams []db.Team
+	models.Db().Find(&teams)
+	return c.JSON(http.StatusOK, teams)
+}
+
 func GetPointsDetailed(c echo.Context) error {
 	var teams []db.Team
 	models.Db().Preload("Orders").Find(&teams)

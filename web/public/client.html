@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Client</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/client.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css">
+    <script
+            src="https://code.jquery.com/jquery-3.4.1.min.js"
+            integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+            crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"
+            integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+            crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+            integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+            crossorigin="anonymous"></script>
+    <script src="https://momentjs.com/downloads/moment.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+    <script src="js/utils.js"></script>
+    <script src="js/client.js"></script>
+
+    <meta name="theme-color" content="#563d7c">
+</head>
+<body>
+
+<div class="pricing-header px-3 py-3 pb-md-4 mx-auto text-center">
+    <div>
+        <h4 class="d-inline text-muted">Team: </h4>
+        <h4 id="selTeam" class="d-inline display-4">xxx</h4>
+        &nbsp &nbsp &nbsp
+        <h4 class="d-inline text-muted">Points: </h4>
+        <h4 id="selPoints" class="d-inline display-4">0</h4>
+    </div>
+</div>
+<div class="container">
+    <h4 class="display-6">Teams</h4>
+
+    <div id="teams" class="card-deck mb-3 text-center">
+    </div>
+
+    <h4 class="display-6">Points</h4>
+
+    <div id="points" class="card-deck mb-3 text-center">
+        <button class="card mb-4 shadow-sm btn btn-lg  btn-primary">1</button>
+        <button class="card mb-4 shadow-sm btn btn-lg btn-primary">2</button>
+        <button class="card mb-4 shadow-sm btn btn-lg btn-primary">5</button>
+        <button class="card mb-4 shadow-sm btn btn-lg  btn-primary">10</button>
+    </div>
+
+    <h4 class="display-6">Confirm</h4>
+    <button id="submit" type="button" class="btn btn-lg btn-block btn-primary">Bock 'em Points!</button>
+    <button id="clear" type="button" class="btn btn-lg btn-block btn-danger">Clear that Shit!</button>
+</div>
+</body>
+</html>
