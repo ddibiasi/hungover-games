@@ -2,6 +2,16 @@
     margin-bottom: 20px;
     height: 75px;
 }
+
+.team-card{
+    background-color: #375a7f;
+    border-color: #375a7f;
+    height: 100px;
+    display: table-cell;
+    vertical-align: middle;
+    font-size: 40px;
+}
+
 #points .btn{
     height: 50px;
 }

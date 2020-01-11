@@ -14,12 +14,10 @@ function loadTeams() {
             return map;
         }, {});
         data.forEach(team =>
-            $('#teams').append('<div class="card mb-4 shadow-sm team-card">\n' +
-                '<div class="card-header">\n' +
-                '<h1 class="card-title pricing-card-title">' + team.name + '</h1>\n' +
-                '</div>\n' +
-                '</div>')
-        );
+            $('#teams').append('<button class=" team-card card mb-4 shadow-sm btn btn-lg btn-primary">' + team.name + '</button>')
+
+    )
+        ;
     });
 }
 
@@ -39,7 +37,7 @@ function initListeners() {
     });
 
     $('#submit').click(function (event) {
-        if(selTeam === "x" || selPoints <= 0){
+        if (selTeam === "x" || selPoints <= 0) {
             toastr["warning"]("No values set");
             return;
         }
