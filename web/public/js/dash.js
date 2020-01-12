@@ -1,34 +1,39 @@
-var barChart;
-var curConsumptionLineChart;
-var timelineChart;
-let ctx;
+var chart;
+var ctx;
 var reloadCounter = 0;
-var viewSwitcher = 1;
+var chartNumber = 1;
+
+
 $(document).ready(function () {
-    ctx = document.getElementById('dash').getContext('2d');
-    ctx.canvas.width = window.innerWidth;
-    ctx.canvas.height = window.innerHeight;
+    resetChart();
     Chart.defaults.global.defaultFontColor = "#fff";
     loadData();
-    setInterval(loadData, 10000);
 });
 
 
+function resetChart() {
+    ctx = $("#dash")[0].getContext('2d');
+    $('#dash').remove();
+    $('#dash-container').append('<canvas id="dash"><canvas>');
+    canvas = document.querySelector('#dash');
+    ctx = canvas.getContext('2d');
+    ctx.canvas.width = window.innerWidth;
+    ctx.canvas.height = window.innerHeight;
+}
+
 function loadData() {
-    if (reloadCounter >= 100) {
-        viewSwitcher++;
-        if(viewSwitcher >= 4){
-            viewSwitcher = 1;
+    if (reloadCounter >= 5) {
+        chartNumber++;
+        if (chartNumber >= 4) {
+            chartNumber = 1;
         }
         reloadCounter = 0;
-        curConsumptionLineChart = null;
-        timelineChart = null;
-        barChart = null;
+        resetChart();
     }
-    switch (viewSwitcher) {
+    switch (chartNumber) {
         case 1:
             $.get("../api/points", function (data) {
-                drawBarChart(data);
+                drawBarChart(ctx, data);
             });
             break;
         case 2:
@@ -42,51 +47,39 @@ function loadData() {
             });
             break;
         default:
-            viewSwitcher = 1;
+            chartNumber = 1;
     }
     reloadCounter++;
+    setTimeout(loadData, 3000);
 }
 
-function drawBarChart(data) {
+function drawBarChart(ctx, data) {
     let teams = data.map((item) => {
         return item.Name
     });
     let points = data.map((item) => {
         return item.TotalPoints
     });
-    if (barChart == null) {
+
+    if (chart == null || chart.config.type !== 'bar') {
         initBarChart(ctx, teams, points)
     } else {
-        barChart.data.datasets[0].data = points;
-        barChart.data.labels = teams;
-        barChart.update()
+        chart.data.datasets[0].data = points;
+        chart.data.labels = teams;
+        chart.update()
     }
 }
 
 function initBarChart(ctx, teams, points) {
-    barChart = new Chart(ctx, {
+    chart = new Chart(ctx, {
         type: 'bar',
         data: {
             labels: teams,
             datasets: [{
                 label: 'Total points per Team',
                 data: points,
-                backgroundColor: [
-                    'rgba(255, 99, 132, 1)',
-                    'rgba(54, 162, 235, 1)',
-                    'rgba(255, 206, 86, 1)',
-                    'rgba(75, 192, 192, 1)',
-                    'rgba(153, 102, 255, 1)',
-                    'rgba(255, 159, 64, 1)'
-                ],
-                borderColor: [
-                    'rgba(255, 99, 132, 1)',
-                    'rgba(54, 162, 235, 1)',
-                    'rgba(255, 206, 86, 1)',
-                    'rgba(75, 192, 192, 1)',
-                    'rgba(153, 102, 255, 1)',
-                    'rgba(255, 159, 64, 1)'
-                ],
+                backgroundColor: colors,
+                borderColor: colors,
                 borderWidth: 1
             }]
         },
@@ -129,7 +122,7 @@ function drawTimeline(ctx, data) {
             }
         }
     };
-    timelineChart = new Chart(ctx, config);
+    chart = new Chart(ctx, config);
     updateTimeline(data);
 }
 
@@ -148,9 +141,9 @@ function updateTimeline(teams) {
             borderColor: colors[i],
             fill: false
         };
-        timelineChart.data.datasets.push(entry)
+        chart.data.datasets.push(entry)
     }
-    timelineChart.update(0)
+    chart.update(0)
 }
 
 function drawCurrentConsumption(ctx, teams) {
@@ -180,7 +173,7 @@ function drawCurrentConsumption(ctx, teams) {
             }
         }
     };
-    curConsumptionLineChart = new Chart(ctx, config);
+    chart = new Chart(ctx, config);
     updateCurrentConsumption(teams);
 }
 
@@ -199,7 +192,7 @@ function updateCurrentConsumption(teams) {
             borderColor: colors[i],
             fill: false
         };
-        curConsumptionLineChart.data.datasets.push(entry)
+        chart.data.datasets.push(entry)
     }
-    curConsumptionLineChart.update(0)
+    chart.update(0)
 }
