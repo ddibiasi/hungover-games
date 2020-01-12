@@ -12,7 +12,6 @@ $(document).ready(function () {
 
 
 function resetChart() {
-    ctx = $("#dash")[0].getContext('2d');
     $('#dash').remove();
     $('#dash-container').append('<canvas id="dash"><canvas>');
     canvas = document.querySelector('#dash');
