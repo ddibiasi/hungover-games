@@ -47,8 +47,12 @@ func setupDb() {
 
 func populateDb() {
 	teams := [8]string{"AC", "HSD", "KWM", "MTD", "MBI", "MC", "SI", "SE"}
-	for _, name := range teams {
+	for i, name := range teams {
 		team := dbModels.Team{Name: name}
+		order := dbModels.Order{TeamID: uint(i + 1), Points: 0}
+		cOrder := dbModels.CumulatedOrders{TeamID: uint(i + 1), CumulatedPoints: 0}
 		db.Where(team).FirstOrCreate(&team)
+		db.Where(order).FirstOrCreate(&order)
+		db.Where(cOrder).FirstOrCreate(&cOrder)
 	}
 }

@@ -14,6 +14,10 @@ import (
 // ################################
 
 func PostOrder(c echo.Context) error {
+	auth := utils.CheckAuthorization(c)
+	if !auth {
+		return c.JSON(http.StatusForbidden, web.Response{Message: "U w0t m8"})
+	}
 	o := new(db.Order)
 	if err := c.Bind(o); err != nil {
 		return err
@@ -26,6 +30,10 @@ func PostOrder(c echo.Context) error {
 }
 
 func PostTeam(c echo.Context) error {
+	auth := utils.CheckAuthorization(c)
+	if !auth {
+		return c.JSON(http.StatusForbidden, web.Response{Message: "U w0t m8"})
+	}
 	t := new(db.Team)
 	if err := c.Bind(t); err != nil {
 		return err

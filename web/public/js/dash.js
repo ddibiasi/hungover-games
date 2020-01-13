@@ -22,9 +22,9 @@ function resetChart() {
 }
 
 function loadData() {
-    if (reloadCounter >= 5) {
+    if (reloadCounter >= 30) {
         chartNumber++;
-        if (chartNumber >= 4) {
+        if (chartNumber >= 3) {
             chartNumber = 1;
         }
         reloadCounter = 0;
@@ -36,12 +36,12 @@ function loadData() {
                 drawBarChart(ctx, data);
             });
             break;
+      //  case 2:
+      //      $.get("../api/points/detailed", function (data) {
+      //          drawCurrentConsumption(ctx, data);
+      //      });
+      //      break;
         case 2:
-            $.get("../api/points/detailed", function (data) {
-                drawCurrentConsumption(ctx, data);
-            });
-            break;
-        case 3:
             $.get("../api/points/timeline", function (data) {
                 drawTimeline(ctx, data);
             });
@@ -50,7 +50,7 @@ function loadData() {
             chartNumber = 1;
     }
     reloadCounter++;
-    setTimeout(loadData, 3000);
+    setTimeout(loadData, 10000);
 }
 
 function drawBarChart(ctx, data) {

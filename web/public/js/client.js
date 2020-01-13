@@ -1,8 +1,9 @@
 var teams = [];
 var selTeam = "xxx";
-var selPoints = 0;
-
+var selPoints = 0.0;
+var secret = "";
 $(document).ready(function () {
+    secret = prompt("Secret?");
     loadTeams();
     initListeners()
 });
@@ -32,7 +33,7 @@ function initListeners() {
     $('#points').click(function (event) {
         event.stopPropagation();
         event.stopImmediatePropagation();
-        selPoints += parseInt($(event.target).text());
+        selPoints += parseFloat($(event.target).text());
         $("#selPoints").text(selPoints)
     });
 
@@ -46,6 +47,7 @@ function initListeners() {
             dataType: 'json',
             type: 'post',
             contentType: 'application/json',
+            headers: { 'hungover-token': secret },
             data: JSON.stringify({"teamid": teams[selTeam], "points": selPoints} ),
             processData: false,
             success: function( data, textStatus, jQxhr ){
