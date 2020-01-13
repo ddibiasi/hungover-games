@@ -5,6 +5,8 @@ import (
 	"github.com/labstack/gommon/log"
 	"hungover-games/models"
 	"io/ioutil"
+	"os"
+	"strings"
 	"sync"
 )
 
@@ -42,10 +44,16 @@ func CheckAuthorization(c echo.Context) bool {
 }
 
 func readSecret() {
-	content, err := ioutil.ReadFile("credentials")
+	file, err := os.Open("credentials")
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer file.Close()
+	content, err := ioutil.ReadAll(file)
 	if err != nil {
 		log.Fatal(err)
 	}
 	s := string(content)
+	s = strings.TrimSuffix(s, "\n")
 	secret = &s
 }
