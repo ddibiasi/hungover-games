@@ -18,6 +18,9 @@ func PostOrder(c echo.Context) error {
 	if err := c.Bind(o); err != nil {
 		return err
 	}
+	if o.TeamID == 0 {
+		return c.JSON(http.StatusBadRequest, web.Response{Message: "Invalid team"})
+	}
 	models.Db().Create(o)
 	return c.JSON(http.StatusCreated, web.Response{Message: "Added order"})
 }

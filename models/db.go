@@ -42,4 +42,13 @@ func setupDb() {
 	db.AutoMigrate(&dbModels.Team{})
 	db.AutoMigrate(&dbModels.Order{})
 	db.AutoMigrate(&dbModels.CumulatedOrders{})
+	populateDb()
+}
+
+func populateDb() {
+	teams := [8]string{"AC", "HSD", "KWM", "MTD", "MBI", "MC", "SI", "SE"}
+	for _, name := range teams {
+		team := dbModels.Team{Name: name}
+		db.Where(team).FirstOrCreate(&team)
+	}
 }

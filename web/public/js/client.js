@@ -41,13 +41,20 @@ function initListeners() {
             toastr["warning"]("No values set");
             return;
         }
-        $.post("../api/order", JSON.stringify({"teamid": teams[selTeam], "points": selPoints}))
-            .done(function () {
+        $.ajax({
+            url: '../api/order',
+            dataType: 'json',
+            type: 'post',
+            contentType: 'application/json',
+            data: JSON.stringify({"teamid": teams[selTeam], "points": selPoints} ),
+            processData: false,
+            success: function( data, textStatus, jQxhr ){
                 toastr["success"]("Sent!");
-            })
-            .fail(function () {
-                toastr["error"]("Could not send :(");
-            });
+            },
+            error: function( jqXhr, textStatus, errorThrown ){
+                toastr["error"](textStatus);
+            }
+        });
 
         resetViews();
 

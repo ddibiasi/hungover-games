@@ -12,6 +12,7 @@ $(document).ready(function () {
 
 
 function resetChart() {
+    // todo remove size monitor
     $('#dash').remove();
     $('#dash-container').append('<canvas id="dash"><canvas>');
     canvas = document.querySelector('#dash');
