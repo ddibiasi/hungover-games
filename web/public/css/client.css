@@ -13,7 +13,8 @@
 }
 
 #points .btn{
-    height: 50px;
+    height: 60px;
+    font-size: 25px;
 }
 html {
     font-size: 14px;
