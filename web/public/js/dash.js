@@ -7,6 +7,7 @@ var chartNumber = 1;
 $(document).ready(function () {
     resetChart();
     Chart.defaults.global.defaultFontColor = "#fff";
+    Chart.defaults.global.defaultFontSize = 18;
     loadData();
 });
 
@@ -36,11 +37,11 @@ function loadData() {
                 drawBarChart(ctx, data);
             });
             break;
-      //  case 2:
-      //      $.get("../api/points/detailed", function (data) {
-      //          drawCurrentConsumption(ctx, data);
-      //      });
-      //      break;
+        //  case 2:
+        //      $.get("../api/points/detailed", function (data) {
+        //          drawCurrentConsumption(ctx, data);
+        //      });
+        //      break;
         case 2:
             $.get("../api/points/timeline", function (data) {
                 drawTimeline(ctx, data);
@@ -76,7 +77,6 @@ function initBarChart(ctx, teams, points) {
         data: {
             labels: teams,
             datasets: [{
-                label: 'Total points per Team',
                 data: points,
                 backgroundColor: colors,
                 borderColor: colors,
@@ -89,7 +89,14 @@ function initBarChart(ctx, teams, points) {
                     ticks: {
                         beginAtZero: true
                     }
-                }]
+                }],
+            },
+            legend: {
+                display: false
+            },
+            title: {
+                display: true,
+                text: 'Total points per Team',
             }
         }
     });
