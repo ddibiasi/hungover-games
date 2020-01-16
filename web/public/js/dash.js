@@ -23,7 +23,7 @@ function resetChart() {
 }
 
 function loadData() {
-    if (reloadCounter >= 30) {
+    if (reloadCounter >= 20) {
         chartNumber++;
         if (chartNumber >= 3) {
             chartNumber = 1;

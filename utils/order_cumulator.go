@@ -13,7 +13,7 @@ var (
 )
 
 func StartCumulator() {
-	ticker = time.NewTicker(5 * time.Minute)
+	ticker = time.NewTicker(2 * time.Minute)
 	done = make(chan bool)
 	go func() {
 		for {
