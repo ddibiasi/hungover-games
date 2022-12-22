@@ -1,4 +1,8 @@
 # Hungover Games Infrastructure
+This project has been created in a *very short amount
+of time*, for a very specific use case. Please do not consider
+it best practise.
+
 Backend written in GoLang.
 
 Frontend powered by chart.js.
